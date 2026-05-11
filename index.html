@@ -24,13 +24,33 @@
             --glow:       0 0 24px rgba(59,130,246,.25);
         }
 
+        /* ── Light Theme ── */
+        [data-theme="light"] {
+            --bg-base:    #f8fafc;
+            --bg-surface: #ffffff;
+            --bg-card:    #f1f5f9;
+            --bg-input:   #f8fafc;
+            --accent:     #2563eb;
+            --accent-dim: rgba(37,99,235,.1);
+            --accent2:    #16a34a;
+            --danger:     #dc2626;
+            --text:       #1e293b;
+            --text-muted: #64748b;
+            --border:     rgba(37,99,235,.2);
+            --glow:       0 4px 20px rgba(37,99,235,.15);
+        }
+
         * { margin:0; padding:0; box-sizing:border-box; font-family:'Inter',sans-serif; }
 
         body {
-            background: radial-gradient(ellipse at 20% 10%, #0d1b35 0%, var(--bg-base) 60%);
+            background: radial-gradient(ellipse at 20% 10%, #e0e7ff 0%, var(--bg-base) 60%);
             min-height: 100vh;
             padding: 28px 20px;
             color: var(--text);
+            transition: background 0.3s ease;
+        }
+        [data-theme="light"] body {
+            background: linear-gradient(135deg, #f0f4ff 0%, #ffffff 100%);
         }
 
         .container {
@@ -307,8 +327,8 @@
             position: fixed;
             bottom: 28px;
             right: 28px;
-            background: #1e3a5f;
-            color: #93c5fd;
+            background: var(--bg-surface);
+            color: var(--accent);
             border: 1px solid var(--border);
             padding: 14px 22px;
             border-radius: var(--radius-sm);
@@ -322,6 +342,15 @@
             box-shadow: var(--glow);
         }
         #toast.show { opacity: 1; transform: translateY(0); }
+        #toast.error {
+            background: var(--bg-surface);
+            color: var(--danger);
+            border-color: rgba(239,68,68,.4);
+        }
+        [data-theme="light"] #toast.error {
+            background: #fef2f2;
+            border-color: rgba(220,38,38,.3);
+        }
 
         /* ── extracted results textarea ── */
         .extracted-results {
@@ -480,15 +509,196 @@
             .tab { padding: 8px; font-size: .8em; }
             .combo-input { height: 150px; }
         }
+
+        /* ── Search Highlight ── */
+        .highlight {
+            background: rgba(251, 191, 36, .2);
+            color: #fbbf24;
+            padding: 2px 4px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+        [data-theme="light"] .highlight {
+            background: rgba(245, 158, 11, .3);
+            color: #d97706;
+        }
+
+        /* ── Progress Bar ── */
+        .progress-container {
+            width: 100%;
+            height: 8px;
+            background: var(--bg-input);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 16px 0;
+            border: 1px solid var(--border);
+        }
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), #60a5fa);
+            border-radius: 4px;
+            transition: width 0.3s ease;
+            box-shadow: 0 0 10px rgba(59,130,246,.5);
+        }
+        .progress-text {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 8px;
+        }
+
+        /* ── Tab Badge ── */
+        .tab-badge {
+            background: var(--accent);
+            color: #fff;
+            font-size: 11px;
+            padding: 2px 8px;
+            border-radius: 10px;
+            margin-left: 6px;
+            font-weight: 600;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+        }
+        .tab-badge.show {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* ── File Info Card ── */
+        .file-info-card {
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s ease;
+        }
+        .file-info-card:hover {
+            border-color: var(--accent);
+            background: rgba(59,130,246,.08);
+        }
+        .file-info-name {
+            font-weight: 500;
+            color: var(--text);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .file-info-name i {
+            color: var(--accent);
+        }
+        .file-info-details {
+            font-size: 12px;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+        }
+
+        /* ── Animated Counter ── */
+        .stat-value {
+            transition: all 0.5s ease;
+        }
+        .stat-value.pulse {
+            animation: pulse 0.5s ease;
+        }
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        /* ── Search History ── */
+        .search-history {
+            margin-top: 12px;
+            padding: 12px;
+            background: var(--bg-input);
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--border);
+        }
+        .search-history-title {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .search-history-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+        }
+        .history-item {
+            background: var(--accent-dim);
+            color: #60a5fa;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .history-item:hover {
+            background: rgba(59,130,246,.3);
+            transform: translateY(-1px);
+        }
+
+        /* ── Enhanced Drop Zone ── */
+        .drop-zone {
+            border: 2px dashed var(--border);
+            padding: 28px 20px;
+            text-align: center;
+            border-radius: var(--radius);
+            background: var(--bg-input);
+            cursor: pointer;
+            transition: all .3s ease;
+            color: var(--text-muted);
+            position: relative;
+            overflow: hidden;
+        }
+        .drop-zone::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(59,130,246,.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .drop-zone:hover::before {
+            opacity: 1;
+        }
+        .drop-zone i { color: var(--accent); margin-bottom: 8px; display: block; transition: transform 0.3s ease; }
+        .drop-zone:hover i { transform: scale(1.1); }
+        .drop-zone p { margin: 5px 0; font-size: .9em; }
+        .drop-zone:hover { background: rgba(59,130,246,.07); border-color: var(--accent); color: var(--text); }
+        .drop-zone.drag-over { 
+            background: var(--accent-dim); 
+            border-color: var(--accent);
+            transform: scale(1.02);
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1><i class="fas fa-search"></i> Dosya Arama Sistemi</h1>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+            <h1><i class="fas fa-search"></i> Dosya Arama Sistemi</h1>
+            <button class="btn" id="themeToggle" onclick="toggleTheme()" style="padding: 8px 16px; margin: 0;">
+                <i class="fas fa-moon" id="themeIcon"></i>
+            </button>
+        </div>
         
         <div class="tab-container">
-            <div class="tab active" onclick="openTab('search-tab')">Dosya Arama</div>
-            <div class="tab" onclick="openTab('combo-tab')">Combo Ayıklayıcı</div>
+            <div class="tab active" onclick="openTab('search-tab')">
+                Dosya Arama <span class="tab-badge" id="searchTabBadge">0</span>
+            </div>
+            <div class="tab" onclick="openTab('combo-tab')">
+                Combo Ayıklayıcı <span class="tab-badge" id="comboTabBadge">0</span>
+            </div>
         </div>
         
         <!-- Dosya Arama Sekmesi -->
@@ -516,12 +726,18 @@
                 </div>
 
                 <div id="fileList" class="file-list"></div>
+                <div id="fileInfoCards" style="margin-top: 16px;"></div>
 
                 <div class="input-group">
                     <input type="text" id="searchInput" class="search-input" placeholder="Aranacak kelimeyi girin...">
                     <button class="clear-input-btn" onclick="clearSearchInput()" style="display: none;">
                         <i class="fas fa-times"></i>
                     </button>
+                </div>
+
+                <div id="searchHistory" class="search-history" style="display: none;">
+                    <div class="search-history-title">Son Aramalar</div>
+                    <div class="search-history-items" id="searchHistoryItems"></div>
                 </div>
 
                 <div style="text-align: center; margin-top: 20px;">
@@ -538,6 +754,10 @@
             </div>
 
             <div id="status" class="status"></div>
+            <div id="progressContainer" class="progress-container" style="display: none;">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+                <div class="progress-text" id="progressText">İşleniyor...</div>
+            </div>
             <div id="searchResults" class="results"></div>
             <div id="searchActions" style="text-align: center; margin-top: 16px; display: none;">
                 <button class="copy-btn" onclick="copySearchResults()">
@@ -622,6 +842,37 @@
         const MAX_FILE_SIZE = 5 * 1024 * 1024 * 1024; // 5 GB
         let selectedFiles = []; // Set yerine array kullanacağız
         let searchResults = [];
+        let searchHistory = [];
+        let fileLineCounts = {};
+        let currentTheme = 'dark'; // Varsayılan tema
+
+        // ── Theme Management ──
+        function toggleTheme() {
+            currentTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(currentTheme);
+        }
+
+        function setTheme(theme) {
+            currentTheme = theme;
+            document.documentElement.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+
+            const themeIcon = document.getElementById('themeIcon');
+            if (theme === 'light') {
+                themeIcon.className = 'fas fa-sun';
+            } else {
+                themeIcon.className = 'fas fa-moon';
+            }
+        }
+
+        function loadTheme() {
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme) {
+                setTheme(savedTheme);
+            } else {
+                setTheme('dark'); // Varsayılan tema
+            }
+        }
 
         // ── Clear Functions ──
         function clearSearchInput() {
@@ -635,6 +886,7 @@
             document.getElementById('searchResults').innerHTML = '<div class="empty-state fade-in"><i class="fas fa-search"></i><p>Sonuç bulunamadı</p><p>Dosya seçin ve arama yapın</p></div>';
             document.getElementById('searchActions').style.display = 'none';
             document.getElementById('status').textContent = '';
+            updateTabBadge('searchTabBadge', 0);
             showToast('Sonuçlar temizlendi');
         }
 
@@ -646,6 +898,7 @@
             document.getElementById('extractedCombos').textContent = '0';
             document.getElementById('successRate').textContent = '0%';
             document.getElementById('comboStatus').textContent = '';
+            updateTabBadge('comboTabBadge', 0);
             showToast('Combo alanı temizlendi');
         }
 
@@ -679,6 +932,12 @@
 
         // ── Input Event Listeners ──
         document.addEventListener('DOMContentLoaded', function() {
+            // Load theme
+            loadTheme();
+
+            // Load search history
+            loadSearchHistory();
+
             const searchInput = document.getElementById('searchInput');
             const clearBtn = document.querySelector('.clear-input-btn');
 
@@ -730,7 +989,9 @@
 
         function updateFileList() {
             const fileList = document.getElementById('fileList');
+            const fileInfoCards = document.getElementById('fileInfoCards');
             fileList.innerHTML = '';
+            fileInfoCards.innerHTML = '';
 
             selectedFiles.forEach(file => {
                 const fileItem = document.createElement('div');
@@ -743,7 +1004,106 @@
                     </button>
                 `;
                 fileList.appendChild(fileItem);
+
+                // File info card
+                const infoCard = document.createElement('div');
+                infoCard.className = 'file-info-card fade-in';
+                infoCard.innerHTML = `
+                    <div class="file-info-name">
+                        <i class="fas fa-file-alt"></i>
+                        ${file.name}
+                    </div>
+                    <div class="file-info-details">
+                        <span><i class="fas fa-hdd"></i> ${formatFileSize(file.size)}</span>
+                        <span><i class="fas fa-list"></i> ${fileLineCounts[file.name] || '?'} satır</span>
+                    </div>
+                `;
+                fileInfoCards.appendChild(infoCard);
             });
+        }
+
+        // ── Search History ──
+        function addToSearchHistory(term) {
+            if (!term || searchHistory.includes(term)) return;
+            searchHistory.unshift(term);
+            if (searchHistory.length > 10) searchHistory.pop();
+            updateSearchHistoryDisplay();
+            localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
+        }
+
+        function loadSearchHistory() {
+            const saved = localStorage.getItem('searchHistory');
+            if (saved) {
+                searchHistory = JSON.parse(saved);
+                updateSearchHistoryDisplay();
+            }
+        }
+
+        function updateSearchHistoryDisplay() {
+            const historyDiv = document.getElementById('searchHistory');
+            const historyItems = document.getElementById('searchHistoryItems');
+
+            if (searchHistory.length === 0) {
+                historyDiv.style.display = 'none';
+                return;
+            }
+
+            historyDiv.style.display = 'block';
+            historyItems.innerHTML = '';
+
+            searchHistory.forEach(term => {
+                const item = document.createElement('div');
+                item.className = 'history-item';
+                item.textContent = term;
+                item.onclick = () => {
+                    document.getElementById('searchInput').value = term;
+                    document.querySelector('.clear-input-btn').style.display = 'block';
+                    searchFiles();
+                };
+                historyItems.appendChild(item);
+            });
+        }
+
+        // ── Highlight Search Term ──
+        function highlightText(text, searchTerm) {
+            if (!searchTerm) return text;
+            const regex = new RegExp(`(${searchTerm.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`, 'gi');
+            return text.replace(regex, '<span class="highlight">$1</span>');
+        }
+
+        // ── Animated Counter ──
+        function animateCounter(element, targetValue, duration = 500) {
+            const startValue = parseInt(element.textContent) || 0;
+            const difference = targetValue - startValue;
+            const startTime = performance.now();
+
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const currentValue = Math.round(startValue + difference * easeOut);
+                element.textContent = currentValue;
+
+                if (progress < 1) {
+                    requestAnimationFrame(update);
+                } else {
+                    element.classList.add('pulse');
+                    setTimeout(() => element.classList.remove('pulse'), 500);
+                }
+            }
+
+            requestAnimationFrame(update);
+        }
+
+        // ── Update Tab Badge ──
+        function updateTabBadge(tabId, count) {
+            const badge = document.getElementById(tabId);
+            badge.textContent = count;
+            if (count > 0) {
+                badge.classList.add('show');
+            } else {
+                badge.classList.remove('show');
+            }
         }
 
         // Dosyaları senkron olarak oku ve ara
@@ -754,6 +1114,7 @@
                     const results = [];
                     let filePosition = 0;
                     let lineNumber = 1;
+                    let totalLines = 0;
                     
                     console.log(`${file.name} dosyası parçalar halinde okunuyor (Boyut: ${formatFileSize(file.size)})`);
                     
@@ -764,7 +1125,9 @@
                         
                         // Dosya sonuna geldik mi kontrol et
                         if (filePosition >= file.size) {
-                            console.log(`${file.name} dosyası tamamen okundu, ${results.length} sonuç bulundu`);
+                            console.log(`${file.name} dosyası tamamen okundu, ${results.length} sonuç bulundu, ${totalLines} satır`);
+                            fileLineCounts[file.name] = totalLines;
+                            updateFileList();
                             resolve(results);
                             return;
                         }
@@ -777,6 +1140,7 @@
                             try {
                                 const chunk = e.target.result;
                                 const lines = chunk.split('\n');
+                                totalLines += lines.length;
                                 
                                 // Son satır yarım olabilir, bir sonraki parçayla birleştirmek üzere sakla
                                 // (sadece ilk parça değilse)
@@ -839,14 +1203,20 @@
             const status = document.getElementById('status');
             const maxResultsSelect = document.getElementById('maxResults');
             const maxResults = parseInt(maxResultsSelect.value) || 0; // 0 = limitsiz
-            
+            const progressContainer = document.getElementById('progressContainer');
+            const progressBar = document.getElementById('progressBar');
+            const progressText = document.getElementById('progressText');
+
             status.classList.remove('error');
-            
+
             if (selectedFiles.length === 0 || !searchTerm) {
                 status.textContent = 'Lütfen dosya seçin ve arama terimi girin!';
                 status.classList.add('error');
                 return;
             }
+
+            // Add to search history
+            addToSearchHistory(searchTerm);
 
             // Büyük dosyaları uyarı ver
             const bigFiles = selectedFiles.filter(file => file.size > 100 * 1024 * 1024); // 100 MB üstü
@@ -858,6 +1228,11 @@
             searchResults = [];
             resultsDiv.innerHTML = '<div class="empty-state fade-in"><div class="loading-spinner"></div><p>Dosyalar aranıyor...</p></div>';
             status.textContent = `Arama yapılıyor... (${selectedFiles.length} dosya)`;
+
+            // Show progress bar
+            progressContainer.style.display = 'block';
+            progressBar.style.width = '0%';
+            progressText.textContent = 'İşleniyor...';
             
             try {
                 console.log(`Toplam ${selectedFiles.length} dosya aranacak, arama terimi: "${searchTerm}"`);
@@ -869,7 +1244,12 @@
                 for (let i = 0; i < selectedFiles.length; i++) {
                     const file = selectedFiles[i];
                     console.log(`İşleniyor: ${i+1}/${selectedFiles.length} - ${file.name} (${formatFileSize(file.size)})`);
-                    
+
+                    // Update progress bar
+                    const progress = Math.round(((i + 1) / selectedFiles.length) * 100);
+                    progressBar.style.width = progress + '%';
+                    progressText.textContent = `${i+1}/${selectedFiles.length} dosya işleniyor...`;
+
                     try {
                         const results = await readAndSearch(file, searchTerm);
                         console.log(`${file.name} dosyasında ${results.length} sonuç bulundu`);
@@ -905,8 +1285,14 @@
                 searchResults = allResults;
                 
                 // Sonuçları dosyalara göre gruplandırarak göster
-                displayGroupedResults(resultsByFile);
-                
+                displayGroupedResults(resultsByFile, searchTerm);
+
+                // Hide progress bar
+                progressContainer.style.display = 'none';
+
+                // Update tab badge
+                updateTabBadge('searchTabBadge', searchResults.length);
+
                 status.textContent = `${searchResults.length} sonuç bulundu (${Object.keys(resultsByFile).length}/${selectedFiles.length} dosyada)`;
                 console.log(`Arama tamamlandı, toplam ${searchResults.length} sonuç`);
                 
@@ -917,7 +1303,7 @@
             }
         }
 
-        function displayGroupedResults(resultsByFile) {
+        function displayGroupedResults(resultsByFile, searchTerm) {
             const resultsDiv = document.getElementById('searchResults');
             const searchActions = document.getElementById('searchActions');
             resultsDiv.innerHTML = '';
@@ -978,7 +1364,7 @@
                     
                     const lineElement = document.createElement('div');
                     lineElement.className = 'line-content';
-                    lineElement.textContent = result.line;
+                    lineElement.innerHTML = highlightText(result.line, searchTerm);
                     
                     resultElement.appendChild(lineNumberEl);
                     resultElement.appendChild(lineElement);
@@ -1571,9 +1957,12 @@
                 comboActions.style.display = 'none';
             }
             
-            // İstatistikleri güncelle
-            document.getElementById('totalLines').textContent = totalLines;
-            document.getElementById('extractedCombos').textContent = successCount;
+            // İstatistikleri güncelle (animated counters)
+            animateCounter(document.getElementById('totalLines'), totalLines);
+            animateCounter(document.getElementById('extractedCombos'), successCount);
+
+            // Update tab badge
+            updateTabBadge('comboTabBadge', successCount);
             
             const successRate = totalLines > 0 ? Math.round((successCount / totalLines) * 100) : 0;
             document.getElementById('successRate').textContent = successRate + '%';
@@ -1620,9 +2009,10 @@
         function showToast(msg, isError = false) {
             const t = document.getElementById('toast');
             t.textContent = msg;
-            t.style.background   = isError ? '#3b1a1a' : '#1e3a5f';
-            t.style.color        = isError ? '#fca5a5' : '#93c5fd';
-            t.style.borderColor  = isError ? 'rgba(239,68,68,.4)' : 'rgba(59,130,246,.3)';
+            t.classList.remove('error');
+            if (isError) {
+                t.classList.add('error');
+            }
             t.classList.add('show');
             setTimeout(() => t.classList.remove('show'), 3000);
         }
